@@ -1,11 +1,15 @@
 # This is a sample Python script.
 import pandas as pd
 from datetime import datetime
+from pathlib import Path
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
-def import_cartao_bradesco(path_extrato_excel):
+BASE_DIR = Path(__file__).resolve().parent
+TESTDB_DIR = BASE_DIR / "testDB"
+
+def import_cartao_bradesco(path_extrato_excel:Path):
 
     df = pd.read_excel(path_extrato_excel, skiprows=10 )
 
@@ -16,13 +20,18 @@ def import_cartao_bradesco(path_extrato_excel):
         if str(df.iloc[i]).find('Total')>0:
             final_line = i
             break
-    final_line = final_line-1
+    # final_line = final_line-1
 
     df = df.iloc[:final_line]
     df["Data"] = df["Data"] + f"/{2025}"  # Transforma "13/12" em "13/12/2024"
     df["Data"] = pd.to_datetime(df["Data"], format="%d/%m/%Y")
-    df.iloc[:, 4] = df.iloc[:, 4].apply(lambda x: float(str(x).replace(",", ".")))
+    
 
+    
+    df.iloc[:, 4] = df.iloc[:, 4].apply(lambda x: str(x).replace(",", "."))
+
+
+    df['Valor(R$)'] = df['Valor(R$)'].astype(float)
     datas = df.iloc[:,0]
     desc =  df.iloc[:,1]
     val = df.iloc[:, 4]
@@ -37,7 +46,8 @@ def import_cartao_bradesco(path_extrato_excel):
     df_out.set_index('Data')
 
     # df_out.to_excel(path_extrato_excel.replace('.xls','-exportMeuDinheiro.xlsx'),index=False, index_label="")
-    df_out.to_csv(path_extrato_excel.replace('.xls','-exportMeuDinheiro.csv'),index=False)
+    output_file_name = path_extrato_excel.with_name(path_extrato_excel.stem + '-exportMeuDinheiro.csv')
+    df_out.to_csv(output_file_name,index=False)
 
 # Função para limpar e converter os valores
 def converter_moeda(valor):
@@ -51,7 +61,7 @@ def converter_data(valor):
         # valor =pd.to_datetime(valor, format="%d/%m/%Y")
     return valor#pd.to_datetime(valor, format="%d/%m/%Y")
 
-def import_cartao_XP(path_extrato_csv):
+def import_cartao_XP(path_extrato_csv:Path):
 
     df = pd.read_csv(path_extrato_csv, delimiter=';' )
 
@@ -75,10 +85,14 @@ def import_cartao_XP(path_extrato_csv):
     df_out.set_index('Data')
 
     # df_out.to_excel(path_extrato_excel.replace('.xls','-exportMeuDinheiro.xlsx'),index=False, index_label="")
-    df_out.to_csv(path_extrato_csv.replace('.csv','-exportMeuDinheiro.csv'),index=False)
+    
+    
+
+    output_file_name = path_extrato_csv.with_name(path_extrato_csv.stem + '-exportMeuDinheiro.csv')
+    df_out.to_csv(output_file_name,index=False)
 
 
-def import_cartao_nubank(path_extrato_csv):
+def import_cartao_nubank(path_extrato_csv:Path):
 
     df = pd.read_csv(path_extrato_csv, delimiter=',' )
 
@@ -110,9 +124,13 @@ def import_cartao_nubank(path_extrato_csv):
     df_out.set_index('Data')
 
     # df_out.to_excel(path_extrato_excel.replace('.xls','-exportMeuDinheiro.xlsx'),index=False, index_label="")
-    df_out.to_csv(path_extrato_csv.replace('.csv','-exportMeuDinheiro.csv'),index=False)
 
-def import_cc_XP(path_extrato_csv):
+
+
+    output_file_name = path_extrato_csv.with_name(path_extrato_csv.stem + '-exportMeuDinheiro.csv')
+    df_out.to_csv(output_file_name,index=False)
+
+def import_cc_XP(path_extrato_csv:Path):
 
     df = pd.read_csv(path_extrato_csv, delimiter=';' )
     datas = df.iloc[:, 0]
@@ -137,10 +155,13 @@ def import_cc_XP(path_extrato_csv):
     df_out.set_index('Data')
 
     # df_out.to_excel(path_extrato_excel.replace('.xls','-exportMeuDinheiro.xlsx'),index=False, index_label="")
-    df_out.to_csv(path_extrato_csv.replace('.csv','-exportMeuDinheiro.csv'),index=False)
+    
+
+    output_file_name = path_extrato_csv.with_name(path_extrato_csv.stem + '-exportMeuDinheiro.csv')
+    df_out.to_csv(output_file_name,index=False)
 
 
-def import_cc_inv_XP(path_extrato_excel):
+def import_cc_inv_XP(path_extrato_excel:Path):
 
     df = pd.read_excel(path_extrato_excel, skiprows=13 )
 
@@ -169,31 +190,29 @@ def import_cc_inv_XP(path_extrato_excel):
     df_out.set_index('Data')
 
     # df_out.to_excel(path_extrato_excel.replace('.xls','-exportMeuDinheiro.xlsx'),index=False, index_label="")
-    df_out.to_csv(path_extrato_excel.replace('.xlsx','-exportMeuDinheiro.csv'),index=False)
-
-def main(name):
-    pass
 
 
-# Press the green button in the gutter to run the script.
+    output_file_name = path_extrato_excel.with_name(path_extrato_excel.stem + '-exportMeuDinheiro.csv')
+    df_out.to_csv(output_file_name,index=False)
+
+
 if __name__ == '__main__':
-    # path_extrato_cartao_bradesco = (
-    #     f"C:\\Users\\rafaelb1\\OneDrive\\Finanças\\extratos\\2025-03-12\\Bradesco_12032025_125331.xls")
-    # path_extrato_cartao_XP=(
-    #     "C:\\Users\\rafaelb1\\OneDrive\\Finanças\\extratos\\2025-03-12\\Fatura2025-04-10.csv")
-    # path_extrato_cc_XP = (
-    #     "C:\\Users\\rafaelb1\\OneDrive\\Finanças\\extratos\\2025-03-12\\extrato_de_10-02-2025_ate_12-03-2025.csv")
-    # path_extrato_cc_inv_XP = (
-    #     "~/Downloads/cc_inv_extrato_de_02-01-2026_ate_01-02-2026.xlsx")
+    
+    path_extrato_cartao_bradesco = (
+         TESTDB_DIR / "CartaoBradesco.xls")
+    path_extrato_cartao_XP=(
+        TESTDB_DIR / "CartaoXP.csv")
+    path_extrato_cc_XP = (
+        TESTDB_DIR / "extrato_cc_xp.csv")
+    path_extrato_cc_inv_XP = (
+        TESTDB_DIR / "extrato_cc_xp_inv.xlsx")
     path_extrato_cartao_nubank = (
-        "~/Downloads/Nubank_2026-04-10.csv")
-    # path_extrato_cc_XP2 = (
-    #     "C:\\Users\\rafaelb1\\OneDrive\\Finanças\\extratos\\2025-03-06\\extrato_de_04-02-2025_ate_06-03-2025.xlsx")
+       TESTDB_DIR / "CartaoNubank.csv")    
 
-    # import_cartao_bradesco(path_extrato_cartao_bradesco)
-    # import_cartao_XP(path_extrato_cartao_XP)
-    # import_cc_XP(path_extrato_cc_XP)
-    # import_cc_inv_XP(path_extrato_cc_inv_XP)
+    import_cartao_bradesco(path_extrato_cartao_bradesco)
+    import_cartao_XP(path_extrato_cartao_XP)
+    import_cc_XP(path_extrato_cc_XP)
+    import_cc_inv_XP(path_extrato_cc_inv_XP)
     import_cartao_nubank(path_extrato_cartao_nubank)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
