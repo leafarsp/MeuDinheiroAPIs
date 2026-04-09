@@ -46,8 +46,8 @@ def import_cartao_bradesco(path_extrato_excel:Path):
     df_out.set_index('Data')
 
     # df_out.to_excel(path_extrato_excel.replace('.xls','-exportMeuDinheiro.xlsx'),index=False, index_label="")
-    output_file_name = path_extrato_excel.with_name(path_extrato_excel.stem + '-exportMeuDinheiro.csv')
-    df_out.to_csv(output_file_name,index=False)
+    output_file_name = path_extrato_excel.with_name(path_extrato_excel.stem + '-exportMeuDinheiro.xlsx')
+    df_out.to_excel(output_file_name,index=False)
 
 # Função para limpar e converter os valores
 def converter_moeda(valor):
@@ -88,8 +88,8 @@ def import_cartao_XP(path_extrato_csv:Path):
     
     
 
-    output_file_name = path_extrato_csv.with_name(path_extrato_csv.stem + '-exportMeuDinheiro.csv')
-    df_out.to_csv(output_file_name,index=False)
+    output_file_name = path_extrato_csv.with_name(path_extrato_csv.stem + '-exportMeuDinheiro.xlsx')
+    df_out.to_excel(output_file_name,index=False)
 
 
 def import_cartao_nubank(path_extrato_csv:Path):
@@ -127,8 +127,8 @@ def import_cartao_nubank(path_extrato_csv:Path):
 
 
 
-    output_file_name = path_extrato_csv.with_name(path_extrato_csv.stem + '-exportMeuDinheiro.csv')
-    df_out.to_csv(output_file_name,index=False)
+    output_file_name = path_extrato_csv.with_name(path_extrato_csv.stem + '-exportMeuDinheiro.xlsx')
+    df_out.to_excel(output_file_name,index=False)
 
 def import_cc_XP(path_extrato_csv:Path):
 
@@ -157,8 +157,8 @@ def import_cc_XP(path_extrato_csv:Path):
     # df_out.to_excel(path_extrato_excel.replace('.xls','-exportMeuDinheiro.xlsx'),index=False, index_label="")
     
 
-    output_file_name = path_extrato_csv.with_name(path_extrato_csv.stem + '-exportMeuDinheiro.csv')
-    df_out.to_csv(output_file_name,index=False)
+    output_file_name = path_extrato_csv.with_name(path_extrato_csv.stem + '-exportMeuDinheiro.xlsx')
+    df_out.to_excel(output_file_name,index=False)
 
 
 def import_cc_inv_XP(path_extrato_excel:Path):
@@ -192,8 +192,8 @@ def import_cc_inv_XP(path_extrato_excel:Path):
     # df_out.to_excel(path_extrato_excel.replace('.xls','-exportMeuDinheiro.xlsx'),index=False, index_label="")
 
 
-    output_file_name = path_extrato_excel.with_name(path_extrato_excel.stem + '-exportMeuDinheiro.csv')
-    df_out.to_csv(output_file_name,index=False)
+    output_file_name = path_extrato_excel.with_name(path_extrato_excel.stem + '-exportMeuDinheiro.xlsx')
+    df_out.to_excel(output_file_name,index=False)
 
 
 if __name__ == '__main__':
